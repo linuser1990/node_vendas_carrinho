@@ -1,4 +1,23 @@
 <%- include('./header'); %>
+
+<!--
+MUDA A COR DO BOTAO AO CLICAR EM ADICIONAR
+UTILIZA ESSES DOIS LINKS
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+ -->
+ <script>
+    $(document).ready(function() {
+      $('#adicionar').click(function() {
+        $(this).removeClass('btn-light').addClass('btn-success').text('ADICIONADO COM SUCESSO');
+        setTimeout(function() {
+          $('#adicionar').removeClass('btn-success').addClass('btn-secondary').text('Adicionar ao carrinho');
+        }, 1000);
+      });
+    });
+  </script>
+
+
 <form method="post" action="/inserirvendacarrinho" class="form">
 
     <div class="form-group">
@@ -34,7 +53,7 @@
         <input type="text" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
     </div>
     <!--AO CLICAR EM ADICIONAR AO CARRINHO, CHAMA A FUNÇÃO EM JS QUE ARMAZENA OS VALUES DOS CAMPOS PARA A ROTA /addCarrinho -->
-    <button onclick="redirecionarParaCarrinho();mostrarTexto();" type="button" class="btn btn-block btn-secondary"> Adicionar ao carrinho</button> </a>
+    <button onclick="redirecionarParaCarrinho();" id="adicionar" name="adicionar" type="button" class="btn btn-block btn-secondary">Adicionar ao carrinho </button> 
 
     <div class="form-group">
         <label for="subtotal">Sub Total R$:</label>
@@ -50,5 +69,5 @@
 
 </form>
 <br>
-<p id="textoOculto">Adicionado ao carrinho!</p>
+<p id="textoOculto" style="display: none;">ADICIONADO COM SUCESSO!</p>
 <%- include('./footer'); %>
