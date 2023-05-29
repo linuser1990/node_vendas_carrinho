@@ -1,0 +1,45 @@
+<%- include('./header'); %>
+<form method="post" action="/inserirvenda" class="form">
+
+    <div class="form-group">
+        <!-- <label for="selectcliente">Cliente:</label> -->
+        <a href="/add"><button type="button" class="btn btn-block btn-primary"> CADASTRAR CLIENTE</button> </a>
+        <select id="selectcliente" name="selectcliente" onchange="getSelectedValue();" class="form-control">
+            <option selected disabled hidden>Selecione um cliente</option>
+            <% var c = clientes.length;
+            for(var i=0;i<c;i++) { %>
+                <option value="<%=clientes[i].codcli%>"><%=clientes[i].nome%></option>
+            <% } %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <!-- <label for="selectproduto">Produto:</label> -->
+        <a href="/addProdutos"><button type="button" class="btn btn-block btn-primary"> CADASTRAR PRODUTO</button> </a>
+        <select id="selectproduto" name="selectproduto" onchange="getSelectedValue();totalVenda();" class="form-control">
+            <option selected disabled hidden>Selecione um produto</option>
+            <% var p = produtos.length;
+            for(var i=0;i<p;i++) { %>
+                <option value="<%=produtos[i].codpro%>,<%=produtos[i].precovenda%>"><%=produtos[i].nome%></option>
+            <% } %>
+        </select>
+    </div>
+
+    <input type="hidden" name="codcli" id="codcli">
+    <input type="hidden" name="codpro" id="codpro">
+    <input type="hidden" name="precovenda" id="precovenda">
+
+    <div class="form-group">
+        <label for="qtd">Quantidade:</label>
+        <input type="text" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="total">Total R$:</label>
+        <input type="text" name="total" id="total" value="0" placeholder="R$ 0.00" class="form-control">
+    </div>
+
+    <input type="submit" value="Finalizar venda" class="btn btn-success btn-block">
+
+</form>
+<%- include('./footer'); %>

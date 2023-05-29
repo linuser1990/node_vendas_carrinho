@@ -1,0 +1,51 @@
+<%- include('./header'); %>
+
+<form method="post" action="/alterarProduto/<%=produto[0].codigo%>">
+	<table class="styled-table">
+
+		<th>
+		<td> </td><td> </td><td> </td>
+		</th>
+		
+		<tr>
+			<td class="label">
+				C�digo
+			</td>
+
+			<td>
+				<input type="text" value="<%=produto[0].codigo%>"  readonly>
+			</td>
+		</tr>
+		
+
+		<tr>
+			<td class="label">
+				Nome:
+			</td>
+
+			<td>
+				<input type="text" name="nome" id="nome" value="<%=produto[0].nome%>">
+			</td>
+		</tr>
+
+		<tr>
+			<td class="label">
+				Valor:
+			</td>
+
+			<td>
+				<input type="text" name="valor" id="valor" value="<%=produto[0].valor%>">
+			</td>
+		</tr>
+
+
+
+	</table>
+
+<input type="hidden" name="codigo" value="<%=produto[0].codigo%>">
+
+<input type="submit" value="Alterar"> 
+<input type="button" value="Cancelar.." onclick="cancelar();">
+</form>
+
+<%- include('./footer'); %>

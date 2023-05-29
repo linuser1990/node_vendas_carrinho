@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Number Input with Brazilian Real Currency Formatting</title>
+    <script>
+      function formatCurrency(input) {
+        let value = input.value.replace(/[^\d]/g, '');
+        value = value / 100;
+        value = value.toFixed(2).replace(',', '.');
+        input.value = 'R$ ' + value;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Number Input with Brazilian Real Currency Formatting</h1>
+    <p>Enter a number in Brazilian Real currency format:</p>
+    <input type="tel" step="0.01" min="0" placeholder="R$ 0.00" onkeyup="formatCurrency(this)">
+  </body>
+</html>

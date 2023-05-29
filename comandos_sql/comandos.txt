@@ -1,0 +1,35 @@
+//conecta no banco postgres
+sudo -i -u postgres
+
+//troca de banco de dados
+\c vendas;
+
+//exibe informaçoes do tipo de campo da Tabela
+\d+
+
+
+//zera o valor do campo codigo serial
+SELECT column_name, column_default
+FROM information_schema.columns
+WHERE table_name = 'venda' AND column_name = 'codvenda';
+
+//depois digite
+select setval('venda_codvenda_seq',1,false);
+
+//arredonda a soma em duas casas decimais para mais
+select ROUND(sum(precocusto), 2) as soma from produto;
+
+//BETWEEN ENTRE DATAS 
+select *,cliente.nome as nome_cliente,produto.nome as nome_produto,TO_CHAR(data_hora,'DD/MM/YYYY') as datav from venda inner join cliente on cliente.codcli = venda.cliente_codcli inner join produto on produto.codpro = venda.produto_codpro  where data_venda BETWEEN TO_DATE('"+formattedDateStart+"','DD/MM/YYYY') and TO_DATE('"+formattedDateEnd+"','DD/MM/YYYY')";
+
+//FORMATA DATA QUE RECEBEU DOS CALENDARIOS ESCOLHIDO PELO USUARIO
+    const dateStringStart = startDate;
+    const parts = dateStringStart.split('-');
+    const formattedDateStart = `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+    const dateStringEnd = endDate;
+    const parts2 = dateStringEnd.split('-');
+    const formattedDateEnd = `${parts2[2]}/${parts2[1]}/${parts2[0]}`;
+
+//COMANDO EXPORTAR ESTRUTURA BANCO
+pg_dump -U postgres -d vendas -f estrutura_dados.sql;

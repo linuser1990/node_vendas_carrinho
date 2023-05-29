@@ -1,0 +1,55 @@
+<%- include('./header'); %>
+<form method="post" action="/inserirvenda">
+    
+    
+    <div class="select-estiloso">
+        <select id="selectcliente" name="selectcliente" onchange="getSelectedValue();">
+            <option selected="selected" disable hidden>CLIENTES</option>
+            <%
+            var c = clientes.length;
+            for(var i=0;i<c;i++)
+            {
+            %>
+                <option value="<%=clientes[i].codcli%>"><%=clientes[i].nome%></option>>
+            <% } %>
+            
+        </select>
+    </div>
+
+  
+
+
+    <div class="select-estiloso">
+        <select id="selectproduto" name="selectproduto" onchange="getSelectedValue();">
+            <option selected="selected" disable hidden>PRODUTOS</option>
+            <%
+            var p = produtos.length;
+            for(var i=0;i<p;i++)
+            {
+            %>
+                <option value="<%=produtos[i].codpro%>,<%=produtos[i].precovenda%>"><%=produtos[i].nome%></option>>
+               
+            <% } %>
+           
+        </select>
+    </div>
+
+   
+
+    <%#//Guarda o código selecionado, recebe da funçao 'getSelectedValue()' %>
+    <input type="hidden" name="codcli" id="codcli">  
+    <input type="hidden" name="codpro" id="codpro">
+    <input type="hidden" name="precovenda" id="precovenda" >
+
+    
+
+    Quantidade:<br>
+    <input type="text" name="qtd" id="qtd" onkeyup="totalVenda()"> <br>
+    Total:<br>
+    <input type="text" name="total" id="total"> <br>
+    <input type="submit" value="Finalizar venda">
+
+
+
+</form>
+<%- include('./footer'); %>

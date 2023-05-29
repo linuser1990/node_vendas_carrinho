@@ -1,0 +1,41 @@
+<%- include('./header'); %>
+  
+  <div class="container">
+    <h1>Histórico de vendas por periodo</h1><br>
+    Periodo: <%=datainicio%> até <%=datafim%>  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Cliente</th>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Total</th>
+          <th>Data e Hora</th>
+          <th>Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%
+        var r = resultado.length;
+		    for(var i=0;i<r;i++)
+		    {
+          %>
+        <tr>
+          <td><%=resultado[i].codvenda%></td>
+          <td><%=resultado[i].nome_cliente%></td>
+          <td><%=resultado[i].nome_produto%></td>
+          <td><%=resultado[i].qtd%></td>
+          <td><%=resultado[i].total%></td>
+          <td><%=resultado[i].data_hora%></td>
+          <td><%=resultado[i].datav%></td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+  </div>
+
+ 
+
+    
+    <%- include('./footer'); %>

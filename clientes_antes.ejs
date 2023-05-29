@@ -1,0 +1,45 @@
+<%- include('./header'); %>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>CPF</th>
+            <th>Celular</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    
+	<%
+		var p = pessoas.length;
+		for(var i=0;i<p;i++)
+		{
+	%>
+            <tr>
+                <td><%=pessoas[i].codcli%></td>
+                <td><%=pessoas[i].nome%></td>
+                <td><%=pessoas[i].endereco%></td>
+                <td><%=pessoas[i].cpf%></td>
+                <td><%=pessoas[i].cel%></td>
+                
+                <td><a href="/deletar/<%= pessoas[i].codcli %>"> Deletar </a> - 
+                    <a href="/editar/<%= pessoas[i].codcli%>" > Alterar </a> 
+                
+                </td>
+               
+            </tr>
+			
+	<%
+		}	
+	%>
+        <!-- and so on... -->
+    </tbody>
+</table>
+
+
+	
+
+<%- include('./footer'); %>
