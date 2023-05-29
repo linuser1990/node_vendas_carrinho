@@ -112,5 +112,12 @@ function formatarTelefone(telefone) {
     
   }
 
+  function mostrarTexto() {
+    var elemento = document.getElementById("textoOculto");
+    elemento.style.display = "block";
+    setTimeout(function(){
+      elemento.style.display = "none";
+    }, 3000);
+  }
 
 

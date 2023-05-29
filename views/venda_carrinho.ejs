@@ -34,7 +34,7 @@
         <input type="text" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
     </div>
     <!--AO CLICAR EM ADICIONAR AO CARRINHO, CHAMA A FUNÇÃO EM JS QUE ARMAZENA OS VALUES DOS CAMPOS PARA A ROTA /addCarrinho -->
-    <button onclick="redirecionarParaCarrinho();" type="button" class="btn btn-block btn-secondary"> Adicionar ao carrinho</button> </a>
+    <button onclick="redirecionarParaCarrinho();mostrarTexto();" type="button" class="btn btn-block btn-secondary"> Adicionar ao carrinho</button> </a>
 
     <div class="form-group">
         <label for="subtotal">Sub Total R$:</label>
@@ -49,4 +49,6 @@
     <input type="submit" value="Finalizar venda" class="btn btn-success btn-block">
 
 </form>
+<br>
+<p id="textoOculto">Adicionado ao carrinho!</p>
 <%- include('./footer'); %>
