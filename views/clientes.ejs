@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Exemplo Bootstrap</title>
+    <title>Gerenciamento de Vendas - CLIENTES</title>
     <!-- Adicionando o CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
@@ -86,10 +86,10 @@
                     for(var i=0;i<p;i++)
                 {
                 %>
-
+                
                 <tr>
-                    <td><%=pessoas[i].codcli%></td>
-                    <td><%=pessoas[i].nome%></td>
+                    <td><a href="/editar/<%= pessoas[i].codcli%>"> <%=pessoas[i].codcli%> </a> </td>
+                    <td><a href="/editar/<%= pessoas[i].codcli%>"> <%=pessoas[i].nome%></a> </td>
                     <td><%=pessoas[i].endereco%></td>
                     <td><%=pessoas[i].cpf%></td>
                     <td><%=pessoas[i].cel%></td>
@@ -100,6 +100,7 @@
                     </td>
                    
                 </tr>
+                
                 
         <%
             }	

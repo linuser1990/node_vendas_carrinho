@@ -528,10 +528,10 @@ app.post('/pesquisa_venda_carrinho_periodo', (req, res) => {
     const parts2 = dateStringEnd.split('-');
     const formattedDateEnd = `${parts2[2]}/${parts2[1]}/${parts2[0]}`;
  
-    var sql = "SELECT *,TO_CHAR(data_venda,'DD/MM/YYYY') as datav,cliente.nome as nome_cliente,"+
-    'produto.nome as nome_produto FROM venda inner join cliente on '+
+    var sql = "SELECT *,TO_CHAR(data_venda,'DD/MM/YYYY') as datav,cliente.nome as nome_cliente "+
+    ' FROM venda inner join cliente on '+
     'venda.cliente_codcli = cliente.codcli '+
-    " inner join produto on produto.codpro = venda.produto_codpro  where data_venda BETWEEN TO_DATE('"+formattedDateStart+"','DD/MM/YYYY') and TO_DATE('"+formattedDateEnd+"','DD/MM/YYYY')"+
+    " where data_venda BETWEEN TO_DATE('"+formattedDateStart+"','DD/MM/YYYY') and TO_DATE('"+formattedDateEnd+"','DD/MM/YYYY')"+
     ' order by codvenda desc';
     pool.query(sql,(error, results) => {
         if (error) {

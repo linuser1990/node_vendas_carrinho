@@ -35,7 +35,7 @@
 		    for(var i=0;i<r;i++)
 		    {
           %>
-        <tr>
+        <tr onclick="redirect('/detalhes_venda/<%=resultado[i].codvenda%>')">
           <td><%=resultado[i].codvenda%></td>
           <td><%=resultado[i].nome_cliente%></td>
           <td><%=resultado[i].total%></td>
@@ -55,6 +55,12 @@
     </table>
   </div>
 
+  <!--REDIRENCIONA PARA DETALHES AO CLICAR NA ROW LINHA DA TABELA-->
+  <script>
+    function redirect(link) {
+      window.location.href = link;
+    }
+  </script>
  
 
     
