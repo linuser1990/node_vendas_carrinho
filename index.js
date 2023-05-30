@@ -470,11 +470,10 @@ app.get('/historico_vendas', (req, res) => {
 
 //HISTORICO VENDAS CARRINHO
 app.get('/historico_vendas_carrinho', (req, res) => {
-    pool.query("SELECT *,TO_CHAR(data_venda,'DD/MM/YYYY') as datav,cliente.nome as nome_cliente,"+
-    'produto.nome as nome_produto FROM venda inner join cliente on '+
-    'venda.cliente_codcli = cliente.codcli '+
-    'inner join produto on produto.codpro = venda.produto_codpro '+
-    'order by codvenda desc', (error, results) => {
+    pool.query("SELECT *,TO_CHAR(data_venda,'DD/MM/YYYY') as datav,cliente.nome as nome_cliente "+
+    ' FROM venda inner join cliente on '+
+    ' venda.cliente_codcli = cliente.codcli '+
+    ' order by codvenda desc', (error, results) => {
         if (error) {
             throw error;
         } 
@@ -628,12 +627,12 @@ app.post('/inserirvendacarrinho', (req, res) => {
     console.log('codido do produto selecionado:'+parseInt(selectProduto,10));*/
     //-----------------------------------------//
 
-    var cols = [req.body.codcli, req.body.codpro ,total];
+    var cols = [req.body.codcli,total];
     
     var codvenda=0;
     
     
-    pool.query('insert into venda (cliente_codcli,produto_codpro,total) values($1,$2,$3)', cols, (error, results) => {
+    pool.query('insert into venda (cliente_codcli,total) values($1,$2)', cols, (error, results) => {
         if (error) {
             throw error;
         }

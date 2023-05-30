@@ -17,8 +17,21 @@ UTILIZA ESSES DOIS LINKS
     });
   </script>
 
+ 
+<style>
+    .btn-with-image {
+      background-image: url('imagens/addcarrinho.png');
+      background-repeat: no-repeat;
+      background-size: 20% 100%;
+      background-position: right;
+      padding: 10px 20px;
+      color: #fff;
+      text-align: center;
+    }
+  </style>
 
-<form method="post" action="/inserirvendacarrinho" class="form">
+
+<form id="form" name="form" method="post" action="/inserirvendacarrinho" class="form">
 
     <div class="form-group">
         <!-- <label for="selectcliente">Cliente:</label> -->
@@ -50,10 +63,10 @@ UTILIZA ESSES DOIS LINKS
 
     <div class="form-group">
         <label for="qtd">Quantidade:</label>
-        <input type="text" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
+        <input type="tel" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
     </div>
     <!--AO CLICAR EM ADICIONAR AO CARRINHO, CHAMA A FUNÇÃO EM JS QUE ARMAZENA OS VALUES DOS CAMPOS PARA A ROTA /addCarrinho -->
-    <button onclick="redirecionarParaCarrinho();" id="adicionar" name="adicionar" type="button" class="btn btn-block btn-secondary">Adicionar ao carrinho </button> 
+    <button onclick="redirecionarParaCarrinho();" id="adicionar" name="adicionar" type="button" class="btn btn-block btn-secondary btn-with-image">Adicionar ao carrinho </button> 
 
     <div class="form-group">
         <label for="subtotal">Sub Total R$:</label>
@@ -70,4 +83,19 @@ UTILIZA ESSES DOIS LINKS
 </form>
 <br>
 <p id="textoOculto" style="display: none;">ADICIONADO COM SUCESSO!</p>
+
+
+<!-- LIMPA OS CAMPOS AO CLICAR NO BOTAO SALVAR VENDA -->
+<script>
+  document.getElementById('form').addEventListener('submit', function(event) {
+    // Impede o envio do formulário
+    event.preventDefault();
+    
+    // Limpa o valor do campo 'nome'
+    document.getElementById('total').value = '0';
+    
+    // Submete o formulário
+    this.submit();
+  });
+</script>
 <%- include('./footer'); %>
