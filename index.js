@@ -657,11 +657,15 @@ app.post('/inserirvendacarrinho', (req, res) => {
         
                 });
             }
-            res.redirect('/historico_vendas_carrinho');
 
             //ZERA VARIAVEIS GLOBAIS
             total=0;
             listaDeObjetos=[];
+
+            //REDIRECIONA PARA O HISTORICO DE VENDAS
+            res.redirect('/historico_vendas_carrinho');
+
+            
 
 
     });

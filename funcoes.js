@@ -120,6 +120,11 @@ function formatarTelefone(telefone) {
     }, 3000);
   }
 
+  function limparCampo()
+  {
+    totalgeral=0;
+  }
+
 
 
 
