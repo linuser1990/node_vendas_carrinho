@@ -17,6 +17,13 @@ UTILIZA ESSES DOIS LINKS
     });
   </script>
 
+  <script>
+     $(document).ready(function() {
+      $('#alertaEstoque').hide();
+    }) 
+
+  </script>
+
  
 <style>
     .btn-with-image {
@@ -62,9 +69,10 @@ UTILIZA ESSES DOIS LINKS
     <input type="hidden" name="precovenda" id="precovenda">
 
     <div class="form-group">
-        <label for="qtd">Quantidade:</label>
+        <label for="qtd">Quantidade:</label> 
         <input type="tel" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
-    </div>
+        <h6 id="alertaEstoque" style="color: red;">Valor maior doque disponivel em estoque</h6>
+      </div>
     <!--AO CLICAR EM ADICIONAR AO CARRINHO, CHAMA A FUNÇÃO EM JS QUE ARMAZENA OS VALUES DOS CAMPOS PARA A ROTA /addCarrinho -->
     <button onclick="redirecionarParaCarrinho();" id="adicionar" name="adicionar" type="button" class="btn btn-block btn-secondary btn-with-image">Adicionar ao carrinho </button> 
 
@@ -102,6 +110,36 @@ UTILIZA ESSES DOIS LINKS
     
     // Submete o formulário
     this.submit();
+  });
+</script>
+
+<!-- VERIFICA ESTOQUE AO INSERIR QUANTIDADE -->
+<script>
+  $(document).ready(function() {
+    $('#qtd').keyup(function() {
+      //PEGA O VALUE DO INPUT qtd
+      const qtd = $(this).val();
+
+      //PEGA O VALUE DO INPUT codpro
+      const codpro = $('#codpro').val();
+      
+      //CHAMA A ROTA e passa os parametros qtd,codpro
+      $.post('/verificarEstoque', { qtd,codpro}, function(response) {
+          if(response=='maior')
+          {
+              //Habilita o botão adicionar
+              $('#adicionar').prop('disabled', false);
+              $("#alertaEstoque").hide();
+     
+          }else
+          {
+              $('#adicionar').prop('disabled', true);
+              $('#subtotal').val('0');
+              $("#alertaEstoque").show();
+          }
+        //$('#msg').val(response);
+      });
+    });
   });
 </script>
 <%- include('./footer'); %>

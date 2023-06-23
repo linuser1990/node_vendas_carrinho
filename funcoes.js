@@ -81,8 +81,6 @@ function formatarTelefone(telefone) {
   }
 
 
-  
-
   //CAPTURA OS VALUES DA PAGINA E COLOCA EM UMA URL PASSANDO PARA A ROTA /addCarrinho
   function redirecionarParaCarrinho() {
     var codpro = document.getElementById('codpro').value; // Obter o valor do campo de entrada 'codpro'
@@ -90,6 +88,8 @@ function formatarTelefone(telefone) {
     var qtd = document.getElementById('qtd').value; // Obter o valor do campo de entrada 'qtd'
     var subtotal = document.getElementById('subtotal').value; // Obter o valor do campo de entrada 'qtd'
     var campototal = document.getElementById('total');
+
+
 
     //soma o subtotal a cada produto adicionado ao carrinho
     totalgeral = totalgeral+parseFloat(subtotal);
@@ -120,6 +120,7 @@ function formatarTelefone(telefone) {
     }, 3000);
   }
 
+  //ZERA A VARIAVEL TOTALGERAL
   function limparCampo()
   {
     totalgeral=0;

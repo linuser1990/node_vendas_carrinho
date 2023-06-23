@@ -275,7 +275,40 @@ app.get('/addProdutos', (req, res) => {
 
 });
 
-//adiciona produtos no carrinho e verifica o estoque  antes
+//CHAMA A VIEW TESTE ESTOQUE
+app.get('/testeestoque', (req, res) => {
+
+    res.render('testeestoque', { varTitle: "Sistema de Vendas - Cadastro Produtos" });
+
+});
+
+// Rota para verificar estoque antes
+app.post('/verificarEstoque', async (req, res) => {
+    
+    //PEGA OS VALORES ENVIADO PELO JQUERY
+    const qtd = parseInt(req.body.qtd);
+    const codpro = parseInt(req.body.codpro);
+  
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT estoque FROM produto where codpro='+codpro);
+      const estoque = result.rows[0].estoque;
+  
+      if (estoque > qtd) {
+        res.send('maior');
+      } else {
+        res.send('menor');
+      }
+  
+      client.release();
+    } catch (error) {
+      console.error('Erro ao verificar quantidade:', error);
+      res.status(500).send('Erro ao verificar quantidade');
+    }
+  });
+
+
+//adiciona produtos no carrinho 
 app.get('/addCarrinho', (req, res) => {
 
 //recebe os parametros da URL
@@ -297,41 +330,8 @@ function adicionarObjeto(codcli, codpro, qtd, subtotal) {
   listaDeObjetos.push(novoObjeto);
 }
 
-
-   //VERIFICA ESTOQUE ANTES
-   pool.query('SELECT estoque FROM produto where codpro='+codproduto, (error, results) => {
    
-    //pega o valor do resultado do select
-    estoque = results.rows[0].estoque;
-  
-
-   if(Number(estoque) < Number(quantidade))
-   {
-
-           // Renderizar a página HTML com o novo valor do campo 'estoque'
-           res.send(`
-           <!DOCTYPE html>
-           <html>
-           <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <title>Erro: Quantidade maior do que estoque disponivel</title>
-              
-           </head>
-           <body>
-           <h1 style="position: relative; margin: 0; text-align: center;">
-           Quantidade selecionada é maior do que disponivel em estoque!
-           </h1>
-           <br><br>
-               Quantidade selecionada: ${quantidade} <br>
-               Estoque disponivel: ${estoque}
-         
-           </body>
-           </html>
-           `);
-           
-   }else
-   {
+   
         //ADICIONA NO ARRAY
         adicionarObjeto(codcliente, codproduto, quantidade, stotal);
 
@@ -355,9 +355,9 @@ function adicionarObjeto(codcli, codpro, qtd, subtotal) {
 
         console.log("total: "+total);
 
-    }
+    
    
-    });
+   // });
 
 });
 
@@ -599,7 +599,6 @@ app.post('/pesquisa_cliente_mais_comprou', (req, res) => {
  
     var sql = "select cliente.codcli,sum(total) as total_comprou ,cliente.nome as nome_cliente "+
     " from venda inner join cliente on cliente.codcli = venda.cliente_codcli "+
-    " "+
     " where data_venda BETWEEN TO_DATE('"+formattedDateStart+"','DD/MM/YYYY') and TO_DATE('"+formattedDateEnd+"','DD/MM/YYYY')group by(venda.cliente_codcli,cliente.nome,cliente.codcli) order by total_comprou desc";
 
     pool.query(sql,(error, results) => {

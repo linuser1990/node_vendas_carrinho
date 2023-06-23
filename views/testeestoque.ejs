@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Verificar Estoque</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Verificar Estoque</h1>
+    <input type="text" id="qtd" />
+    <input type="text" id="msg" />
+    <div id="resposta" style="display: none;"><h1> SIM</h1></div>
+    <div id="dv">NNN</div>
+    <button id="adicionar" disabled>Adicionar</button>
+
+    <script>
+        $(document).ready(function() {
+          $('#qtd').keyup(function() {
+            const qtd = $(this).val();
+            
+            $.post('/verificarEstoque', { qtd }, function(response) {
+                if(response=='maior')
+                {
+                    $('#adicionar').prop('disabled', false);
+                    $("#dv").hide();
+           
+                }else
+                {
+                    $('#adicionar').prop('disabled', true);
+                    $("#dv").show();
+                }
+              $('#msg').val(response);
+            });
+          });
+        });
+      </script>
+  </body>
+</html>
