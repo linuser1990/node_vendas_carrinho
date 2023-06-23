@@ -332,32 +332,29 @@ function adicionarObjeto(codcli, codpro, qtd, subtotal) {
 
    
    
-        //ADICIONA NO ARRAY
-        adicionarObjeto(codcliente, codproduto, quantidade, stotal);
+//ADICIONA NO ARRAY
+adicionarObjeto(codcliente, codproduto, quantidade, stotal);
 
-        //SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAL TOTAL
-        total = total+parseFloat(stotal);
+//SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAL TOTAL
+total = total+parseFloat(stotal);
 
-        console.log("tamanho lista "+listaDeObjetos.length);
+//console.log("tamanho lista "+listaDeObjetos.length);
 
 
-        // Exemplo de exibição das informações dos objetos
-        for (var i = 0; i < listaDeObjetos.length; i++) {
-        var objeto = listaDeObjetos[i];
-        console.log("Objeto " + (i + 1) + ":");
-        console.log("Código do Cliente: " + objeto.codcli);
-        console.log("Código do Produto: " + objeto.codpro);
-        console.log("Quantidade: " + objeto.qtd);
-        console.log("Subtotal: " + objeto.subtotal);
-        console.log("----------------------");
-    
-        }
+// Exemplo de exibição das informações dos objetos
+for (var i = 0; i < listaDeObjetos.length; i++) {
+    var objeto = listaDeObjetos[i];
+    /*console.log("Objeto " + (i + 1) + ":");
+    console.log("Código do Cliente: " + objeto.codcli);
+    console.log("Código do Produto: " + objeto.codpro);
+    console.log("Quantidade: " + objeto.qtd);
+    console.log("Subtotal: " + objeto.subtotal);
+    onsole.log("----------------------");*/
+        
+}
 
-        console.log("total: "+total);
+//console.log("total: "+total);
 
-    
-   
-   // });
 
 });
 
@@ -630,49 +627,36 @@ app.post('/inserirvendacarrinho', (req, res) => {
     //-----------------------------------------//
 
     var cols = [req.body.codcli,total];
-    
-    var codvenda=0;
-    
-    
-    pool.query('insert into venda (cliente_codcli,total) values($1,$2)', cols, (error, results) => {
+
+    //INSERE OS DADOS E RETORNA O CODVENDA ULTIMO INSERIDO
+    pool.query('INSERT INTO venda (cliente_codcli,total) VALUES ($1,$2) RETURNING codvenda', cols, (error, results) => {
         if (error) {
             throw error;
         }
-   
-    });
-
-    pool.query('SELECT codvenda FROM venda ORDER BY codvenda DESC LIMIT 1',(error, results) => {
-        if (error) {
-            throw error;
+    //PEGA O VALOR DO RETURNING USADO NO INSERT
+        var codvenda = results.rows[0].codvenda;
+    
+        for (var i = 0; i < listaDeObjetos.length; i++) {
+            var objeto = listaDeObjetos[i];
+            var cols_itens = [codvenda, objeto.codpro, objeto.subtotal, objeto.qtd];
+    
+            pool.query('INSERT INTO itens_venda (venda_codvenda,produto_codpro,subtotal,qtd) VALUES ($1,$2,$3,$4)', cols_itens, (error, results) => {
+                if (error) {
+                    throw error;
+                }
+            });
         }
-            codvenda = results.rows[0].codvenda;
-
-            //insert itens_venda
-            for (var i = 0; i < listaDeObjetos.length; i++) {
-                var objeto = listaDeObjetos[i];
-                var cols_itens = [codvenda, objeto.codpro ,objeto.subtotal,objeto.qtd];
-
-                pool.query('insert into itens_venda (venda_codvenda,produto_codpro,subtotal,qtd) values($1,$2,$3,$4)',cols_itens,(error, results) => {
-                    if (error) {
-                        throw error;
-                    }
-        
-                });
-            }
-
-            //ZERA VARIAVEIS GLOBAIS
-            total=0;
-            listaDeObjetos=[];
-
-            //REDIRECIONA PARA O HISTORICO DE VENDAS
-            res.redirect('/historico_vendas_carrinho');
-
-            
-
-
     });
-
+    
+  
+    //ZERA VARIAVEIS GLOBAIS
+    total=0;
+    listaDeObjetos=[];
+    
+    //REDIRECIONA PARA O HISTORICO DE VENDAS
+    res.redirect('/historico_vendas_carrinho');
 });
+
 
 //CHAMA PAGINA DETALHES VENDA DE TODAS AS VENDAS
 app.get('/detalhes_todas_vendas', async (req, res) => {
