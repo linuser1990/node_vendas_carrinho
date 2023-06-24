@@ -13,6 +13,9 @@ var estoque=0;
 //VARIAVEL QUE ARMAZENA O TOTAL GERAL
 var total = 0.0;
 
+//ARMAZENA VARIAVEL INSERIR CARRINHO
+var codigovenda = 0;
+
 
 // Criação do array vazio para armazenar os objetos
 var listaDeObjetos = [];
@@ -343,18 +346,17 @@ total = total+parseFloat(stotal);
 
 // Exemplo de exibição das informações dos objetos
 for (var i = 0; i < listaDeObjetos.length; i++) {
-    var objeto = listaDeObjetos[i];
-    /*console.log("Objeto " + (i + 1) + ":");
+    /*var objeto = listaDeObjetos[i];
+    console.log("Objeto " + (i + 1) + ":");
     console.log("Código do Cliente: " + objeto.codcli);
     console.log("Código do Produto: " + objeto.codpro);
     console.log("Quantidade: " + objeto.qtd);
     console.log("Subtotal: " + objeto.subtotal);
-    onsole.log("----------------------");*/
+    console.log("----------------------"); */
         
 }
 
 //console.log("total: "+total);
-
 
 });
 
@@ -614,17 +616,6 @@ app.post('/pesquisa_cliente_mais_comprou', (req, res) => {
 
 //INSERIR VENDA CARRINHO
 app.post('/inserirvendacarrinho', (req, res) => {
-    //parseFloat converte para numero
-    //var soma=10+parseFloat(req.body.valor);
-
-    
-    //teste pegando value do select
-    /*const selectCliente = req.body.codcli;
-    const selectProduto = req.body.selectproduto;
-    console.log('scliente'+selectCliente);
-    console.log('codido do clinte selecionadoo:'+parseInt(selectCliente,10));
-    console.log('codido do produto selecionado:'+parseInt(selectProduto,10));*/
-    //-----------------------------------------//
 
     var cols = [req.body.codcli,total];
 
@@ -633,29 +624,34 @@ app.post('/inserirvendacarrinho', (req, res) => {
         if (error) {
             throw error;
         }
-    //PEGA O VALOR DO RETURNING USADO NO INSERT
-        var codvenda = results.rows[0].codvenda;
-    
+        //PEGA O VALOR DO RETURNING USADO NO INSERT
+        codigovenda = results.rows[0].codvenda;
+
         for (var i = 0; i < listaDeObjetos.length; i++) {
             var objeto = listaDeObjetos[i];
-            var cols_itens = [codvenda, objeto.codpro, objeto.subtotal, objeto.qtd];
-    
+            var cols_itens = [codigovenda, objeto.codpro, objeto.subtotal, objeto.qtd];
+
             pool.query('INSERT INTO itens_venda (venda_codvenda,produto_codpro,subtotal,qtd) VALUES ($1,$2,$3,$4)', cols_itens, (error, results) => {
                 if (error) {
                     throw error;
                 }
             });
         }
+        //ZERA VARIAVEIS GLOBAIS
+        total=0;
+        listaDeObjetos=[];
+        
+        //REDIRECIONA PARA O HISTORICO DE VENDAS
+        res.redirect('/historico_vendas_carrinho');
+
     });
     
-  
-    //ZERA VARIAVEIS GLOBAIS
-    total=0;
-    listaDeObjetos=[];
-    
-    //REDIRECIONA PARA O HISTORICO DE VENDAS
-    res.redirect('/historico_vendas_carrinho');
+
 });
+    
+  
+    
+
 
 
 //CHAMA PAGINA DETALHES VENDA DE TODAS AS VENDAS

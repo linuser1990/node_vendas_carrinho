@@ -80,7 +80,51 @@ function formatarTelefone(telefone) {
    
   }
 
+  //CHAMA A ROTA '/addCarrinho' de forma assincrona, sem ficar carregando a pagina
+  //utiliza AJAX  e a biblioteca jquery para fazer isso
+  function redirecionarParaCarrinho2() {
+    var codpro = document.getElementById('codpro').value; // Obter o valor do campo de entrada 'codpro'
+    var codcli = document.getElementById('codcli').value; // Obter o valor do campo de entrada 'codcli'
+    var qtd = document.getElementById('qtd').value; // Obter o valor do campo de entrada 'qtd'
+    var subtotal = document.getElementById('subtotal').value; // Obter o valor do campo de entrada 'qtd'
+    var campototal = document.getElementById('total');
 
+
+    //soma o subtotal a cada produto adicionado ao carrinho
+    totalgeral = totalgeral+parseFloat(subtotal);
+
+    //preenche o campo total com a soma dos subtotal
+    //A VARIAVEL totalgeral É ZERADA TODA VEZ QUE INICIA UMA NOVA VENDA
+    //PORQUE ELA PEGA O VALOR 0 PREENCHIDO POR PADRAO NO CAMPO TOTAL
+    campototal.value =parseFloat(totalgeral);
+
+
+    //DESABILITA O SELECT CLIENTE AO INICIAR UMA VENDA PARA NAO MUDAR O CLIENTE NO MEIO DA VENDA
+    var selectCliente = document.getElementById("selectcliente");
+    selectCliente.disabled = true;
+
+    $.ajax({
+      url: '/addCarrinho',
+      type: 'GET',
+      data: {
+        codcli: codcli,
+        codpro: codpro,
+        qtd: qtd,
+        subtotal: subtotal
+      },
+      success: function(response) {
+        console.log('Object added to the cart.'); // Optional: Display a success message
+      },
+      error: function(error) {
+        console.error('An error occurred while adding to the cart.'); // Optional: Display an error message
+      }
+    });
+
+       
+  }
+
+
+  //---------- CODIGO ANTIGO, A APAGINA FICAVA CARREGANDO ----------------
   //CAPTURA OS VALUES DA PAGINA E COLOCA EM UMA URL PASSANDO PARA A ROTA /addCarrinho
   function redirecionarParaCarrinho() {
     var codpro = document.getElementById('codpro').value; // Obter o valor do campo de entrada 'codpro'
