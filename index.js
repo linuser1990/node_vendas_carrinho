@@ -333,18 +333,39 @@ function adicionarObjeto(codcli, codpro, qtd, subtotal) {
   listaDeObjetos.push(novoObjeto);
 }
 
-   
-   
+/*// VERIFICA SE JA FOI ADICIONADO O MESMO PRODUTO
+var achou=1;
+for (var i = 0; i < listaDeObjetos.length; i++) {
+     var objeto = listaDeObjetos[i];
+     if(codproduto==objeto.codpro)
+     {
+        achou=2;
+        console.log('achou');
+        
+     }else
+     {
+        console.log('nao achou');
+     }
+}
+if(achou==1)
+{
+    
+}else
+{
+    console.log('achou2');
+}*/
+
 //ADICIONA NO ARRAY
 adicionarObjeto(codcliente, codproduto, quantidade, stotal);
 
-//SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAL TOTAL
+
+//SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAVEL TOTAL
 total = total+parseFloat(stotal);
 
 //console.log("tamanho lista "+listaDeObjetos.length);
 
 
-// Exemplo de exibição das informações dos objetos
+/*// Exemplo de exibição das informações dos objetos
 for (var i = 0; i < listaDeObjetos.length; i++) {
     /*var objeto = listaDeObjetos[i];
     console.log("Objeto " + (i + 1) + ":");
@@ -352,12 +373,14 @@ for (var i = 0; i < listaDeObjetos.length; i++) {
     console.log("Código do Produto: " + objeto.codpro);
     console.log("Quantidade: " + objeto.qtd);
     console.log("Subtotal: " + objeto.subtotal);
-    console.log("----------------------"); */
+    console.log("----------------------"); 
         
-}
+}*/
 
 //console.log("total: "+total);
 
+//RESPONDE PARA NAO FICAR 'pending' a pagina, E CONTINUA NA PAGINA VENDA_CARRINHO
+res.json({ mensagem: 'Rota GET finalizada com sucesso' });
 });
 
 //SELECT E PREENCHE a variavel 'clientes' e 'produtos' com o resultset para prenncher os selects

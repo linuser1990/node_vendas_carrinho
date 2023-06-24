@@ -113,7 +113,8 @@ function formatarTelefone(telefone) {
         subtotal: subtotal
       },
       success: function(response) {
-        console.log('Object added to the cart.'); // Optional: Display a success message
+        //POSSO RETORNAR ALGUMA VARIAVEL DA ROTA '/addCarrinho' Nesse caso foi a variavel 'mensagem'
+        console.log(response.mensagem+' - Object added to the cart.'); // Optional: Display a success message
       },
       error: function(error) {
         console.error('An error occurred while adding to the cart.'); // Optional: Display an error message
