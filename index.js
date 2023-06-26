@@ -7,6 +7,8 @@ const port = 3000;
 const { Pool } = require('pg');
 const notifier = require('node-notifier');//exibir popup na tela
 
+
+
 //variavel que guarda o estoque do produto para verificar se tem estoque disponivel
 var estoque=0;
 
@@ -23,6 +25,7 @@ var listaDeObjetos = [];
 //aceitando EJS
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
 
 
 
@@ -381,7 +384,70 @@ for (var i = 0; i < listaDeObjetos.length; i++) {
 
 //RESPONDE PARA NAO FICAR 'pending' a pagina, E CONTINUA NA PAGINA VENDA_CARRINHO
 res.json({ mensagem: 'Rota GET finalizada com sucesso' });
+
 });
+
+
+//adiciona produtos no carrinho 2 -  testes
+app.get('/addCarrinho2', (req, res) => {
+
+    //recebe os parametros da URL
+    var codcliente = req.query.codcli;
+    var codproduto = req.query.codpro;
+    var quantidade = req.query.qtd;
+    var stotal = req.query.subtotal;
+    
+    
+    // Função para adicionar um novo objeto ao array
+    function adicionarObjeto(codcli, codpro, qtd, subtotal) {
+      var novoObjeto = {
+        codcli: codcli,
+        codpro: codpro,
+        qtd: qtd,
+        subtotal: subtotal
+      };
+    
+      listaDeObjetos.push(novoObjeto);
+    }
+
+    //VARRE A LISTA PRA VER SE JA FOI ADICIONADO O PRODUTO
+    for (var i = 0; i < listaDeObjetos.length; i++) 
+    {
+        var objeto = listaDeObjetos[i];
+
+        ///VERIFICA SE ACHOU O PRODUTO NA LISTA
+        var achou=1;
+
+        if(codproduto==objeto.codpro)
+        {
+           //2 = ENCONTROU 
+           achou=2;
+           res.json({ mensagem: 'PRODUTO JA ADICIONADO',encontrou: 2 });
+           break;
+   
+        }
+    }
+    
+    if(achou==2)
+    {
+        //console.log('achou');
+        
+    }else
+    {
+        //console.log('nao achou');
+
+        //ADICIONA NA LISTA
+        adicionarObjeto(codcliente, codproduto, quantidade, stotal);
+
+        //SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAVEL TOTAL
+        total = total+parseFloat(stotal);
+
+        res.json({ mensagem: 'PRODUTO NAO ADICIONADO', encontrou: 1});
+    }
+    
+  
+});
+
 
 //SELECT E PREENCHE a variavel 'clientes' e 'produtos' com o resultset para prenncher os selects
 app.get('/venda', async (req, res) => {

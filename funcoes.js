@@ -89,14 +89,8 @@ function formatarTelefone(telefone) {
     var subtotal = document.getElementById('subtotal').value; // Obter o valor do campo de entrada 'qtd'
     var campototal = document.getElementById('total');
 
-
-    //soma o subtotal a cada produto adicionado ao carrinho
-    totalgeral = totalgeral+parseFloat(subtotal);
-
-    //preenche o campo total com a soma dos subtotal
-    //A VARIAVEL totalgeral É ZERADA TODA VEZ QUE INICIA UMA NOVA VENDA
-    //PORQUE ELA PEGA O VALOR 0 PREENCHIDO POR PADRAO NO CAMPO TOTAL
-    campototal.value =parseFloat(totalgeral);
+    var alertaRepetido = document.getElementById('alertaRepetido');
+    
 
 
     //DESABILITA O SELECT CLIENTE AO INICIAR UMA VENDA PARA NAO MUDAR O CLIENTE NO MEIO DA VENDA
@@ -104,7 +98,7 @@ function formatarTelefone(telefone) {
     selectCliente.disabled = true;
 
     $.ajax({
-      url: '/addCarrinho',
+      url: '/addCarrinho2',
       type: 'GET',
       data: {
         codcli: codcli,
@@ -113,8 +107,35 @@ function formatarTelefone(telefone) {
         subtotal: subtotal
       },
       success: function(response) {
+
         //POSSO RETORNAR ALGUMA VARIAVEL DA ROTA '/addCarrinho' Nesse caso foi a variavel 'mensagem'
-        console.log(response.mensagem+' - Object added to the cart.'); // Optional: Display a success message
+        console.log(response.mensagem); // Optional: Display a success message
+        
+        
+        //SE NÃO ACHOU 
+        if(response.encontrou ==1)
+        {
+          //soma o subtotal a cada produto adicionado ao carrinho
+          totalgeral = totalgeral+parseFloat(subtotal);
+    
+
+          //preenche o campo total com a soma dos subtotal
+          //A VARIAVEL totalgeral É ZERADA TODA VEZ QUE INICIA UMA NOVA VENDA
+          //PORQUE ELA PEGA O VALOR 0 PREENCHIDO POR PADRAO NO CAMPO TOTAL
+          campototal.value = parseFloat(totalgeral);
+            
+        }else
+        {
+
+          //EXIBE A MENSAGEM QUE JA FOI ADICIONADO O MESMO PRODUTO E ESCONDE A MENSAGEM APOS ALGUNS SEGUNDOS
+          alertaRepetido.style.display = "block";
+          setTimeout(function() {
+            alertaRepetido.style.display = "none";
+          }, 2000);
+          
+            
+         
+        }
       },
       error: function(error) {
         console.error('An error occurred while adding to the cart.'); // Optional: Display an error message
