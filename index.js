@@ -314,82 +314,8 @@ app.post('/verificarEstoque', async (req, res) => {
   });
 
 
-//adiciona produtos no carrinho 
-app.get('/addCarrinho', (req, res) => {
-
-//recebe os parametros da URL
-var codcliente = req.query.codcli;
-var codproduto = req.query.codpro;
-var quantidade = req.query.qtd;
-var stotal = req.query.subtotal;
-
-
-// Função para adicionar um novo objeto ao array
-function adicionarObjeto(codcli, codpro, qtd, subtotal) {
-  var novoObjeto = {
-    codcli: codcli,
-    codpro: codpro,
-    qtd: qtd,
-    subtotal: subtotal
-  };
-
-  listaDeObjetos.push(novoObjeto);
-}
-
-/*// VERIFICA SE JA FOI ADICIONADO O MESMO PRODUTO
-var achou=1;
-for (var i = 0; i < listaDeObjetos.length; i++) {
-     var objeto = listaDeObjetos[i];
-     if(codproduto==objeto.codpro)
-     {
-        achou=2;
-        console.log('achou');
-        
-     }else
-     {
-        console.log('nao achou');
-     }
-}
-if(achou==1)
-{
-    
-}else
-{
-    console.log('achou2');
-}*/
-
-//ADICIONA NO ARRAY
-adicionarObjeto(codcliente, codproduto, quantidade, stotal);
-
-
-//SOMA O SUBTOTAL E ARMAZENA O TOTAL GERAL DA VENDA NA VARIAVEL TOTAL
-total = total+parseFloat(stotal);
-
-//console.log("tamanho lista "+listaDeObjetos.length);
-
-
-/*// Exemplo de exibição das informações dos objetos
-for (var i = 0; i < listaDeObjetos.length; i++) {
-    /*var objeto = listaDeObjetos[i];
-    console.log("Objeto " + (i + 1) + ":");
-    console.log("Código do Cliente: " + objeto.codcli);
-    console.log("Código do Produto: " + objeto.codpro);
-    console.log("Quantidade: " + objeto.qtd);
-    console.log("Subtotal: " + objeto.subtotal);
-    console.log("----------------------"); 
-        
-}*/
-
-//console.log("total: "+total);
-
-//RESPONDE PARA NAO FICAR 'pending' a pagina, E CONTINUA NA PAGINA VENDA_CARRINHO
-res.json({ mensagem: 'Rota GET finalizada com sucesso' });
-
-});
-
-
 //adiciona produtos no carrinho 2 -  testes
-app.get('/addCarrinho2', (req, res) => {
+app.get('/addCarrinho', (req, res) => {
 
     //recebe os parametros da URL
     var codcliente = req.query.codcli;

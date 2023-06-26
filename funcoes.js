@@ -98,7 +98,7 @@ function formatarTelefone(telefone) {
     selectCliente.disabled = true;
 
     $.ajax({
-      url: '/addCarrinho2',
+      url: '/addCarrinho',
       type: 'GET',
       data: {
         codcli: codcli,
