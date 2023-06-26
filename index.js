@@ -702,6 +702,28 @@ app.get('/detalhes_venda/:codigo', async (req, res) => {
   });
 
 
+  app.get('/estoqueAtual',async (req, res) => {
+    try {
+        var cor='green';
+        var codproduto = req.query.codpro;
+        console.log('codpro '+codproduto);
+        const resultados = await pool.query('select estoque from produto where codpro = '+codproduto);
+        console.log('resultado '+resultados.rows[0].estoque);
+
+        if(resultados.rows[0].estoque <= 10)
+        {
+            cor='red';
+        }
+        
+        res.json({ estoque: resultados.rows[0].estoque, corTexto: cor});
+
+        }catch(err)
+        {
+            console.error(err.message);
+        }
+    });
+
+
 
 
 

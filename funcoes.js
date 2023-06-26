@@ -65,19 +65,40 @@ function formatarTelefone(telefone) {
   }
 
 
+  function estoqueAtual()
+  {
+    var codpro = document.getElementById('codpro').value;
+
+    var alertaEstDisp = document.getElementById('alertaEstDisp');
+
+     $.ajax({
+      url: '/estoqueAtual',
+      type: 'GET',
+      data: {  
+        codpro: codpro
+      },
+      success: function(response) {
+        alertaEstDisp.style.display = "block";
+        alertaEstDisp.style.color = response.corTexto;
+        alertaEstDisp.innerText = ("Estoque atual: "+response.estoque);
+      },
+      error: function(error) {
+        console.error('error.'); // Optional: Display an error message
+      }
+  })
+  
+}
   
 
   //atualiza o campo total automatico, multiplicando qtd por precovenda
-  function totalVenda()
+  function subtotalVenda()
   {
        
     var qtd = document.getElementById('qtd');
     var precovenda = document.getElementById('precovenda');
     var subtotal = document.getElementById('subtotal');
     subtotal.value = (parseFloat(qtd.value)*parseFloat(precovenda.value));
-    console.log('qtd value '+qtd.value);
 
-   
   }
 
   //CHAMA A ROTA '/addCarrinho' de forma assincrona, sem ficar carregando a pagina

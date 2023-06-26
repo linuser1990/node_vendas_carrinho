@@ -21,6 +21,7 @@ UTILIZA ESSES DOIS LINKS
      $(document).ready(function() {
       $('#alertaEstoque').hide();
       $('#alertaRepetido').hide();
+      $('#alertaEstDisp').hide();
     }) 
 
   </script>
@@ -56,7 +57,7 @@ UTILIZA ESSES DOIS LINKS
     <div class="form-group">
         <!-- <label for="selectproduto">Produto:</label> -->
         <a href="/addProdutos">CADASTRAR PRODUTO</a>
-        <select id="selectproduto" name="selectproduto" onchange="getSelectedValue();totalVenda();" class="form-control">
+        <select id="selectproduto" name="selectproduto" onchange="getSelectedValue();subtotalVenda();estoqueAtual();" class="form-control">
             <option selected disabled hidden>Selecione um produto</option>
             <% var p = produtos.length;
             for(var i=0;i<p;i++) { %>
@@ -69,9 +70,12 @@ UTILIZA ESSES DOIS LINKS
     <input type="hidden" name="codpro" id="codpro">
     <input type="hidden" name="precovenda" id="precovenda">
 
+    <h6 id="alertaEstDisp" style="color: green;">Em estoque:</h6>
+      
+
     <div class="form-group">
         <label for="qtd">Quantidade:</label> 
-        <input type="tel" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="totalVenda()" class="form-control">
+        <input type="tel" name="qtd" id="qtd" value="1" placeholder="Digite a quantidade" onkeyup="subtotalVenda()" class="form-control">
         <h6 id="alertaEstoque" style="color: red;">Valor maior doque disponivel em estoque</h6>
         <h6 id="alertaRepetido" style="color: red;">Produto já adicionado na lista</h6>
       
