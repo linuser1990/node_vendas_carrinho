@@ -702,6 +702,7 @@ app.get('/detalhes_venda/:codigo', async (req, res) => {
   });
 
 
+  //rora que verifica o estoque a tual e verifica se é <=10
   app.get('/estoqueAtual',async (req, res) => {
     try {
         var cor='green';

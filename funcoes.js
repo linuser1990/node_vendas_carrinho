@@ -65,6 +65,8 @@ function formatarTelefone(telefone) {
   }
 
 
+  //FUNÇÃO QUE VERIFICA O ESTOQUE ATUAL NO BANCO E RETORNA A QUANTIDADE, 
+  //E MOSTRA NA TELA ATUAL,ALTERANDO O TEXTO DA TAG <h6>CASO SEJA <= 10 A COR DO TEXO É VERMELHA
   function estoqueAtual()
   {
     var codpro = document.getElementById('codpro').value;
