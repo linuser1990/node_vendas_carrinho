@@ -70,7 +70,7 @@
     <!-- Criando a tabela -->
     
     <div class="container mt-4">
-        <table class="table table-striped table-active">
+        <table id="tableClientes" name="tableClientes" class="table table-striped table-active">
             <thead>
                 <tr>
                     <th>Código</th>
@@ -80,7 +80,7 @@
                     <th>Celular</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody"> 
                 <%
                     var p = pessoas.length;
                     for(var i=0;i<p;i++)
@@ -94,8 +94,8 @@
                     <td><%=pessoas[i].cpf%></td>
                     <td><%=pessoas[i].cel%></td>
                     
-                    <td><a href="/deletar/<%= pessoas[i].codcli %>"> Deletar </a> - 
-                        <a href="/editar/<%= pessoas[i].codcli%>" > Alterar </a> 
+                    <td><a href="" onclick="deleteItem(event, '<%=pessoas[i].codcli%>')">Excluir</a></a> - 
+                      <a href="/editar/<%= pessoas[i].codcli%>" > Alterar </a> 
                     
                     </td>
                    
@@ -111,6 +111,61 @@
         </table>
     </div>
 
+<script>
+  function deleteItem(event, codigo) {
+  event.preventDefault(); // Impede o comportamento padrão de redirecionamento
+
+  fetch('/deletar/' + codigo, {
+    method: 'GET'
+  })
+    .then(response => {
+      // Verifica o status da resposta
+      if (response.ok) {
+        // A solicitação DELETE foi bem-sucedida
+        console.log('Item excluído com sucesso!');
+
+        // Recarrega apenas os dados da tabela
+        refreshTable();
+      } else {
+        // A solicitação DELETE falhou
+        console.error('Falha ao excluir o item.');
+      }
+    })
+    .catch(error => {
+      console.error('Ocorreu um erro ao excluir o item:', error);
+    });
+}
+
+</script>
+
+<script>
+    function refreshTable() {
+      // Faz uma requisição AJAX para obter os dados atualizados da tabela
+      fetch('/clientes')
+        .then(response => response.text())
+        .then(data => {
+          // Atualiza apenas o conteúdo da tabela
+          document.getElementById('tableBody').innerHTML = getTableBodyHtml(data);
+        })
+        .catch(error => {
+          console.error('Ocorreu um erro ao atualizar a tabela:', error);
+        });
+    }
+    </script>
+    
+    <script>
+    function getTableBodyHtml(data) {
+      // Parseia os dados HTML retornados pela requisição e extrai apenas o conteúdo da tabela
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, 'text/html');
+      const tableBody = doc.querySelector('#tableClientes tbody');
+    
+      // Retorna o conteúdo HTML da tabela
+      return tableBody.innerHTML;
+    }
+    </script>
+    
+    
     <!-- Adicionando o JS do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
